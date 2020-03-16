@@ -48,17 +48,13 @@ func (sl *LockFreeSkipList) Add(value interface{}) bool {
 		for level := 0; level < topLevel; level++ {
 			newNode.storeNext(level, nexts[level])
 		}
-		prev := prevs[0]
-		next := nexts[0]
-		if !prev.casNext(0, next, newNode) {
+		if prev, next := prevs[0], nexts[0]; !prev.casNext(0, next, newNode) {
 			// The successor of prev is not next, we should try again.
 			continue
 		}
 		for level := 1; level < topLevel; level++ {
 			for true {
-				prev := prevs[level]
-				next := nexts[level]
-				if prev.casNext(level, next, newNode) {
+				if prev, next := prevs[level], nexts[level]; prev.casNext(level, next, newNode) {
 					break
 				}
 				// The successor of prev is not next,
@@ -88,8 +84,7 @@ func (sl *LockFreeSkipList) Remove(value interface{}) bool {
 			next = removeNode.loadNext(level)
 		}
 	}
-	next := removeNode.loadNext(0)
-	for true {
+	for next := removeNode.loadNext(0); true; next = removeNode.loadNext(0) {
 		if isMarked(next) {
 			// Other thread already maked the next, so this thread delete failed.
 			return false
@@ -98,7 +93,6 @@ func (sl *LockFreeSkipList) Remove(value interface{}) bool {
 			// This thread marked the bottom next, delete successfully.
 			break
 		}
-		next = removeNode.loadNext(0)
 	}
 	atomic.AddInt32(&sl.size, -1)
 	return true
