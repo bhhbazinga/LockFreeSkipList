@@ -29,6 +29,6 @@ func (sl *LockFreeSkipList) Contains(value interface{})(contains bool)
 func (sl *LockFreeSkipList) GetSize(value interface{})(size int32)
 ```
 ## Reference
-[1]Hazard Pointers: Safe Memory Reclamation for Lock-Free Objects. Maged M. Michael\
+[1]A Pragmatic Implementation of Non-BlockingLinked-Lists. Timothy L.Harris\
 [2]M. Herlihy, Y. Lev, and N. Shavit. A lock-free concurrent skiplist with wait-free search. Unpublished Manuscript, Sun Microsystems Laborato- ries, Burlington, Massachusetts, 2007\
 [3]The Art of Multiprocessor Programming. Maurice Herlihy Nir Shavit
