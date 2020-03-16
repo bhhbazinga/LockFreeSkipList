@@ -51,6 +51,7 @@ func (sl *LockFreeSkipList) Add(value interface{}) bool {
 		prev := prevs[0]
 		next := nexts[0]
 		if !prev.casNext(0, next, newNode) {
+			// The successor of prev is not next, we should try again.
 			continue
 		}
 		for level := 1; level < topLevel; level++ {
@@ -60,6 +61,8 @@ func (sl *LockFreeSkipList) Add(value interface{}) bool {
 				if prev.casNext(level, next, newNode) {
 					break
 				}
+				// The successor of prev is not next,
+				// we should call find to update the prevs and nexts.
 				sl.find(value, &prevs, &nexts)
 			}
 		}
@@ -80,6 +83,7 @@ func (sl *LockFreeSkipList) Remove(value interface{}) bool {
 	for level := removeNode.level - 1; level > 0; level-- {
 		next := removeNode.loadNext(level)
 		for !isMarked(next) {
+			// Make sure that all but the bottom next are marked from top to bottom.
 			removeNode.casNext(level, next, getMarked(next))
 			next = removeNode.loadNext(level)
 		}
@@ -87,9 +91,11 @@ func (sl *LockFreeSkipList) Remove(value interface{}) bool {
 	next := removeNode.loadNext(0)
 	for true {
 		if isMarked(next) {
+			// Other thread already maked the next, so this thread delete failed.
 			return false
 		}
 		if removeNode.casNext(0, next, getMarked(next)) {
+			// This thread marked the bottom next, delete successfully.
 			break
 		}
 		next = removeNode.loadNext(0)
@@ -146,6 +152,8 @@ retry:
 		for true {
 			next = cur.loadNext(level)
 			for isMarked(next) {
+				// Like harris-linkedlist,remove the node while traversing.
+				// See also https://github.com/bhhbazinga/LockFreeLinkedList.
 				if !prev.casNext(level, cur, getUnmarked(next)) {
 					goto retry
 				}
