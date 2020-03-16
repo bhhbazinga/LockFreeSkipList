@@ -1,7 +1,7 @@
 # LockFreeSkipList
-A set implemented based on lockfree skiplist.
+A set implementation based on lockfree skiplist.
 ## Feature
-    * The time complexity of all operations included Add,Remove,Contains are log(n).
+    * The complexity of all operations included Add, Remove, Contains are log(n).
     * Thread-safe and Lock-free.
     * Support Multi-producer and Multi-consumer.
 ## Benchmark
