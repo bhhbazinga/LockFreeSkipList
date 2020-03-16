@@ -4,11 +4,11 @@ A set implemented based on lockfree skiplist.
     * The time complexity of all operations included Add,Remove,Contains are log(n).
     * Thread-safe and Lock-free.
     * Support Multi-producer and Multi-consumer.
-##Benchmark
+## Benchmark
 ```
-n represents the amount of data.
 go test bench=. -args -n=1000000
 ```
+n represents the amount of data.
 ```
 goos: darwin
 goarch: amd64
@@ -28,3 +28,7 @@ func (sl *LockFreeSkipList) Remove(value interface{})(success bool)
 func (sl *LockFreeSkipList) Contains(value interface{})(contains bool)
 func (sl *LockFreeSkipList) GetSize(value interface{})(size int32)
 ```
+## Reference
+[1]Hazard Pointers: Safe Memory Reclamation for Lock-Free Objects. Maged M. Michael\
+[2]M. Herlihy, Y. Lev, and N. Shavit. A lock-free concurrent skiplist with wait-free search. Unpublished Manuscript, Sun Microsystems Laborato- ries, Burlington, Massachusetts, 2007\
+[3]The Art of Multiprocessor Programming. Maurice Herlihy Nir Shavit
