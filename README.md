@@ -1,9 +1,9 @@
 # LockFreeSkipList
 A set implementation based on lockfree skiplist.
 ## Feature
-    * The complexity of all operations included Add, Remove, Contains are log(n).
-    * Thread-safe and Lock-free.
-    * Support Multi-producer and Multi-consumer.
+  * The complexity of all operations included Add, Remove, Contains are log(n).
+  * Thread-safe and Lock-free.
+  * Support Multi-producer and Multi-consumer.
 ## Benchmark
 ```
 go test bench=. -args -n=1000000
