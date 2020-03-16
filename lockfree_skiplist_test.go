@@ -74,11 +74,12 @@ func BenchmarkRandomAddAndRemoveAndContains(b *testing.B) {
 		v2, _ := value2.(int)
 		return v1 < v2
 	})
+	divide := n / 3 // Make sure the total number of operations is n.
 	var count int32
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			for i := 0; i < n; i++ {
-				if sl.Add(rand.Int() % n) {
+			for i := 0; i < divide; i++ {
+				if sl.Add(rand.Int() % divide) {
 					atomic.AddInt32(&count, 1)
 				}
 			}
@@ -86,8 +87,8 @@ func BenchmarkRandomAddAndRemoveAndContains(b *testing.B) {
 	})
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			for i := 0; i < n; i++ {
-				if sl.Remove(rand.Int() % n) {
+			for i := 0; i < divide; i++ {
+				if sl.Remove(rand.Int() % divide) {
 					atomic.AddInt32(&count, -1)
 				}
 			}
@@ -95,8 +96,8 @@ func BenchmarkRandomAddAndRemoveAndContains(b *testing.B) {
 	})
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
-			for i := 0; i < n; i++ {
-				sl.Contains(rand.Int() % n)
+			for i := 0; i < divide; i++ {
+				sl.Contains(rand.Int() % divide)
 			}
 		}
 	})

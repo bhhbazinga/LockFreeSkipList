@@ -13,11 +13,11 @@ n represents the amount of data.
 goos: darwin
 goarch: amd64
 pkg: LockFreeSkipList
-BenchmarkRandomAdd-8                                   1        2055942811 ns/op
-BenchmarkRandomRemove-8                                1        2093779104 ns/op
-BenchmarkRandomAddAndRemoveAndContains-8               1        5792781871 ns/op
+BenchmarkRandomAdd-8                                   1        2025239990 ns/op
+BenchmarkRandomRemove-8                                1        2042296246 ns/op
+BenchmarkRandomAddAndRemoveAndContains-8               1        1308625407 ns/op
 PASS
-ok      LockFreeSkipList        12.056s
+ok      LockFreeSkipList        7.319s
 ```
 The above data was tested on my 2013 macbook-pro with Intel Core i7 4 cores 2.3 GHz. \
 See [benchmark](lockfree_skiplist_test.go).
