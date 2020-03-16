@@ -23,6 +23,7 @@ The above data was tested on my 2013 macbook-pro with Intel Core i7 4 cores 2.3 
 See [benchmark](lockfree_skiplist_test.go).
 ## API
 ```golang
+func NewLockFreeSkipList(comp func(value1 interface{}, value2 interface{}) bool)(sl *LockFreeSkipList)
 func (sl *LockFreeSkipList) Add(value interface{})(success bool)
 func (sl *LockFreeSkipList) Remove(value interface{})(success bool)
 func (sl *LockFreeSkipList) Contains(value interface{})(contains bool)
